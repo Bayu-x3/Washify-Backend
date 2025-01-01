@@ -1,142 +1,142 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+  // This is your Prisma schema file,
+  // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+  // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+  // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {
-  provider = "prisma-client-js"
-}
+  generator client {
+    provider = "prisma-client-js"
+  }
 
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
+  datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+  }
 
-model Outlets {
-  id          Int      @id @default(autoincrement())
-  nama        String   @db.VarChar(100)
-  alamat      String   @db.VarChar(255)
-  tlp         Int
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now())
+  model Outlets {
+    id          Int      @id @default(autoincrement())
+    nama        String   @db.VarChar(100)
+    alamat      String   @db.VarChar(255)
+    tlp         Int
+    created_at  DateTime @default(now())
+    updated_at  DateTime @default(now())
 
-  tb_pakets Pakets[]
-  tb_transaksi Transaksi[]
-  tb_users Users[]
+    tb_pakets Pakets[]
+    tb_transaksi Transaksi[]
+    tb_users Users[]
 
-  @@map("tb_outlets")
-}
+    @@map("tb_outlets")
+  }
 
-enum Role {
-  admin
-  kasir
-  owner
-}
+  enum Role {
+    admin
+    kasir
+    owner
+  }
 
-model Users {
-  id          Int      @id @default(autoincrement())
-  nama        String   @db.VarChar(255)
-  username    String   @unique @db.VarChar(255)
-  password    String   @db.VarChar(255)
-  id_outlet   Int
-  outlets     Outlets  @relation(fields: [id_outlet], references: [id])
-  role        Role
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now())
+  model Users {
+    id          Int      @id @default(autoincrement())
+    nama        String   @db.VarChar(255)
+    username    String   @unique @db.VarChar(255)
+    password    String   @db.VarChar(255)
+    id_outlet   Int
+    outlets     Outlets  @relation(fields: [id_outlet], references: [id])
+    role        Role
+    created_at  DateTime @default(now())
+    updated_at  DateTime @default(now())
 
-  tb_transaksi Transaksi[]
-  
-  @@map("tb_users")
-}
+    tb_transaksi Transaksi[]
+    
+    @@map("tb_users")
+  }
 
-enum Jenis {
-  kiloan
-  selimut
-  bed_cover
-  kaos
-  lain
-}
+  enum Jenis {
+    kiloan
+    selimut
+    bed_cover
+    kaos
+    lain
+  }
 
-model Pakets {
-  id          Int      @id @default(autoincrement())
-  id_outlet   Int
-  outlets    Outlets @relation(fields: [id_outlet], references: [id])
-  jenis      Jenis
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  model Pakets {
+    id          Int      @id @default(autoincrement())
+    id_outlet   Int
+    outlets    Outlets @relation(fields: [id_outlet], references: [id])
+    jenis      Jenis
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now())
 
-  tb_detail_transaksi DetailTransaksi[]
+    tb_detail_transaksi DetailTransaksi[]
 
-  @@map("tb_pakets")
-}
+    @@map("tb_pakets")
+  }
 
-enum Gender {
-  laki_laki
-  perempuan
-}
+  enum Gender {
+    laki_laki
+    perempuan
+  }
 
-model Members {
-  id            Int      @id @default(autoincrement())
-  nama          String   @db.VarChar(100)
-  alamat        String
-  jenis_kelamin Gender
-  tlp           Int
-  created_at    DateTime @default(now())
-  updated_at    DateTime @default(now())
+  model Members {
+    id            Int      @id @default(autoincrement())
+    nama          String   @db.VarChar(100)
+    alamat        String
+    jenis_kelamin Gender
+    tlp           Int
+    created_at    DateTime @default(now())
+    updated_at    DateTime @default(now())
 
-  tb_transaksi Transaksi[]
+    tb_transaksi Transaksi[]
 
-  @@map("tb_members")
-}
+    @@map("tb_members")
+  }
 
-enum Status {
-  baru
-  proses
-  selesai
-  diambil
-}
+  enum Status {
+    baru
+    proses
+    selesai
+    diambil
+  }
 
-enum Dibayar {
-  dibayar
-  belum_dibayar
-}
+  enum Dibayar {
+    dibayar
+    belum_dibayar
+  }
 
-model Transaksi {
-  id             Int      @id @default(autoincrement())
-  id_outlet      Int
-  outlets        Outlets @relation(fields: [id_outlet], references: [id])
-  kode_invoice   String  @db.VarChar(100)
-  id_member      Int
-  members        Members @relation(fields: [id_member], references: [id])
-  tgl            DateTime
-  batas_waktu    DateTime
-  tgl_bayar      DateTime
-  biaya_tambahan Int
-  diskon         Decimal @db.Decimal(8, 2)
-  pajak          Int
-  status         Status
-  dibayar        Dibayar
-  id_user        Int
-  users          Users   @relation(fields: [id_user], references: [id])
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now())
+  model Transaksi {
+    id             Int      @id @default(autoincrement())
+    id_outlet      Int
+    outlets        Outlets @relation(fields: [id_outlet], references: [id])
+    kode_invoice   String  @db.VarChar(100)
+    id_member      Int
+    members        Members @relation(fields: [id_member], references: [id])
+    tgl            DateTime
+    batas_waktu    DateTime
+    tgl_bayar      DateTime
+    biaya_tambahan Int
+    diskon         Decimal @db.Decimal(8, 2)
+    pajak          Int
+    status         Status
+    dibayar        Dibayar
+    id_user        Int
+    users          Users   @relation(fields: [id_user], references: [id])
+    created_at  DateTime @default(now())
+    updated_at  DateTime @default(now())
 
-  tb_detail_transaksi DetailTransaksi[]
+    tb_detail_transaksi DetailTransaksi[]
 
-  @@map("tb_transaksi")
-}
+    @@map("tb_transaksi")
+  }
 
-model DetailTransaksi {
-  id             Int      @id @default(autoincrement())
-  id_transaksi   Int
-  transaksi      Transaksi @relation(fields: [id_transaksi], references: [id])
-  id_paket       Int
-  paket          Pakets   @relation(fields: [id_paket], references: [id])
-  qty            Decimal @db.Decimal()
-  keterangan     String  @db.Text
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now())
+  model DetailTransaksi {
+    id             Int      @id @default(autoincrement())
+    id_transaksi   Int
+    transaksi      Transaksi @relation(fields: [id_transaksi], references: [id])
+    id_paket       Int
+    paket          Pakets   @relation(fields: [id_paket], references: [id])
+    qty            Decimal @db.Decimal()
+    keterangan     String  @db.Text
+    created_at  DateTime @default(now())
+    updated_at  DateTime @default(now())
 
-  @@map("tb_detail_transaksi")
-}
+    @@map("tb_detail_transaksi")
+  }

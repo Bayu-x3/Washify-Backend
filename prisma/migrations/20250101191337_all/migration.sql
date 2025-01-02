@@ -30,6 +30,8 @@ CREATE TABLE `tb_pakets` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `id_outlet` INTEGER NOT NULL,
     `jenis` ENUM('kiloan', 'selimut', 'bed_cover', 'kaos', 'lain') NOT NULL,
+    `harga` INTEGER NOT NULL,
+    `nama_paket` VARCHAR(255) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 

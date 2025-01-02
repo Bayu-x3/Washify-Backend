@@ -54,19 +54,45 @@ async function main() {
   // Seeding Pakets
   await prisma.pakets.createMany({
     data: [
-      { id_outlet: outletOne?.id || 1, jenis: "kiloan" },
-      { id_outlet: outletOne?.id || 1, jenis: "selimut" },
-      { id_outlet: outletTwo?.id || 2, jenis: "bed_cover" },
-      { id_outlet: outletTwo?.id || 2, jenis: "kaos" },
-      { id_outlet: outletThree?.id || 3, jenis: "lain" },
+      { 
+        id_outlet: outletOne?.id || 1, 
+        jenis: "kiloan", 
+        nama_paket: "Paket Kiloan", 
+        harga: 10000 
+      },
+      { 
+        id_outlet: outletOne?.id || 1, 
+        jenis: "selimut", 
+        nama_paket: "Paket Selimut", 
+        harga: 20000 
+      },
+      { 
+        id_outlet: outletTwo?.id || 2, 
+        jenis: "bed_cover", 
+        nama_paket: "Paket Bed Cover", 
+        harga: 25000 
+      },
+      { 
+        id_outlet: outletTwo?.id || 2, 
+        jenis: "kaos", 
+        nama_paket: "Paket Kaos", 
+        harga: 15000 
+      },
+      { 
+        id_outlet: outletThree?.id || 3, 
+        jenis: "lain", 
+        nama_paket: "Paket Lain", 
+        harga: 5000 
+      },
     ],
   });
-
+  
   console.log("Pakets seeded");
-
+  
   const paketOne = await prisma.pakets.findFirst({ where: { jenis: "kiloan" } });
   const paketTwo = await prisma.pakets.findFirst({ where: { jenis: "selimut" } });
   const paketThree = await prisma.pakets.findFirst({ where: { jenis: "bed_cover" } });
+  
 
   // Seeding Transaksi
   await prisma.transaksi.createMany({

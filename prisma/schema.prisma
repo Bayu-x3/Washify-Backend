@@ -61,8 +61,10 @@
   model Pakets {
     id          Int      @id @default(autoincrement())
     id_outlet   Int
-    outlets    Outlets @relation(fields: [id_outlet], references: [id])
-    jenis      Jenis
+    outlets     Outlets @relation(fields: [id_outlet], references: [id])
+    jenis       Jenis
+    nama_paket  String   @db.VarChar(255)
+    harga       Int
     created_at DateTime @default(now())
     updated_at DateTime @default(now())
 

@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { OutletRoutes } from './routes/outlets';
 import { UserRoutes } from './routes/users';
 import { PaketRoutes } from './routes/pakets';
+import { MemberRoutes } from './routes/members';
 
 const app = new Hono().basePath('/api');
 
@@ -19,6 +20,9 @@ logRoute('/api/users');
 
 app.route('/pakets', PaketRoutes);
 logRoute('/api/pakets');
+
+app.route('/members', MemberRoutes);
+logRoute('/api/members');
 
 console.log('All registered routes:', registeredRoutes);
 

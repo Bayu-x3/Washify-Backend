@@ -6,6 +6,7 @@ import { MemberRoutes } from './routes/members';
 import { TransaksiRoutes } from './routes/transaksi';
 import { DetailTransaksiRoutes } from './routes/detailTransaksi';
 import { AuthRoutes } from './routes/auth';
+import { DashboardRoutes } from './routes/dashboard';
 
 const app = new Hono().basePath('/api');
 
@@ -34,6 +35,9 @@ logRoute('/api/transaksi');
 
 app.route('/details', DetailTransaksiRoutes);
 logRoute('/api/details');
+
+app.route('/dashboard', DashboardRoutes);
+logRoute('/api/dashboard');
 
 app.route('/', AuthRoutes);
 logRoute('/api', AuthRoutes);

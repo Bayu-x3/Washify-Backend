@@ -7,10 +7,18 @@ const sendResponse = (c: Context, status: number, success: boolean, message: str
 };
 
 const outletSchema = z.object({
-    nama: z.string().min(1, 'Nama is required'),
-    alamat: z.string().min(1, 'Alamat is required'),
-    tlp: z.coerce.number().min(1, 'Phone Number is required'),
+    nama: z.string()
+        .min(1, 'Outlet name cannot be empty. Please enter a valid name for the outlet.')
+        .max(100, 'Outlet name can be at most 100 characters long.'),
+    alamat: z.string()
+        .min(1, 'Address cannot be empty. Please enter the full address for the outlet.')
+        .max(255, 'Address can be at most 255 characters long.'),
+    tlp: z.coerce.number()
+        .min(1, 'Phone number cannot be empty. Please provide a valid phone number.')
+        .int('Phone number must be an integer value.')
+        .positive('Phone number must be a positive number.'),
 });
+
 
 export async function getOutlets(c: Context) {
     try {

@@ -8,12 +8,22 @@ const sendResponse = (c: Context, status: number, success: boolean, message: str
 };
 
 const userSchema = z.object({
-    nama: z.string().min(3, 'Name must be at least 3 characters').max(50, 'Name must be at most 50 characters'),
-    username: z.string().min(3, 'Username must be at least 3 characters').max(50, 'Username must be at most 50 characters'),
-    password: z.string().min(3, 'Password must be at least 3 characters').max(50, 'Password must be at most 50 characters'),
-    id_outlet: z.coerce.number().positive('Outlet ID must be a positive number'),
-    role: z.enum(['admin', 'kasir', 'owner']),
+    nama: z.string()
+        .min(3, 'Name must be at least 3 characters long.')
+        .max(50, 'Name can be at most 50 characters long.'),
+    username: z.string()
+        .min(3, 'Username must be at least 3 characters long.')
+        .max(50, 'Username can be at most 50 characters long.'),
+    password: z.string()
+        .min(6, 'Password must be at least 6 characters long.')
+        .max(50, 'Password can be at most 50 characters long.'),
+    id_outlet: z.coerce.number()
+        .positive('Outlet ID must be a positive number greater than 0.'),
+    role: z.enum(['admin', 'kasir', 'owner']).refine(val => ['admin', 'kasir', 'owner'].includes(val), {
+        message: 'Role must be one of: admin, kasir, or owner.',
+    }),
 });
+
 
 const userSchemaPartial = userSchema.partial();
 

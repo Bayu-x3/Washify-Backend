@@ -108,16 +108,26 @@ export async function deleteOutlets(c: Context) {
             return sendResponse(c, 400, false, 'Outlet ID is required');
         }
 
+        await prisma.users.deleteMany({
+            where: { id_outlet: Number(id) },
+        });
+
+        await prisma.pakets.deleteMany({
+            where: { id_outlet: Number(id) },
+        });
+
+        await prisma.transaksi.deleteMany({
+            where: { id_outlet: Number(id) },
+        });
+
+        // Now delete the outlet
         await prisma.outlets.delete({
             where: { id: Number(id) },
         });
 
-        return sendResponse(c, 200, true, 'Outlet deleted successfully');
+        return sendResponse(c, 200, true, 'Outlet and related data deleted successfully');
     } catch (error: unknown) {
-        console.error(`Error deleting post: ${error}`);
-        if ((error as { code?: string }).code === 'P2025') {
-            return sendResponse(c, 404, false, 'Post not found');
-        }
-        return sendResponse(c, 500, false, 'Failed to delete post');
+        console.error(`Error deleting outlet: ${error}`);
+        return sendResponse(c, 500, false, 'Failed to delete outlet');
     }
 }

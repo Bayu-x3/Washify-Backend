@@ -1,12 +1,15 @@
 import { Hono } from "hono";
-import { getOutlets, getOutletById ,createOutlets, updateOutlets, deleteOutlets } from "../controllers/OutletsController";
+import { authMiddleware, roleMiddleware } from "../middlewares/authMiddleware";
+import { getOutlets, getOutletById, createOutlets, updateOutlets, deleteOutlets } from "../controllers/OutletsController";
 
 const OutletRoutes = new Hono();
 
-OutletRoutes.get("/", getOutlets);   
-OutletRoutes.get("/:id", getOutletById);
-OutletRoutes.post("/", createOutlets);   
-OutletRoutes.put("/:id", updateOutlets);   
-OutletRoutes.delete("/:id", deleteOutlets);
+OutletRoutes.use('*', authMiddleware);
 
-export {OutletRoutes}
+OutletRoutes.get('/', roleMiddleware(['admin', 'kasir', 'owner']), getOutlets);
+OutletRoutes.get("/:id", roleMiddleware(['admin',]), getOutletById);
+OutletRoutes.post("/", roleMiddleware(['admin',]), createOutlets);
+OutletRoutes.put("/:id", roleMiddleware(['admin',]), updateOutlets);
+OutletRoutes.delete("/:id", roleMiddleware(['admin',]), deleteOutlets);
+
+export { OutletRoutes };

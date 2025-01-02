@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/jsonwebtoken": "^9.0.7"
   }
 }

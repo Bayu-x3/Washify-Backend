@@ -5,15 +5,18 @@ import { PaketRoutes } from './routes/pakets';
 import { MemberRoutes } from './routes/members';
 import { TransaksiRoutes } from './routes/transaksi';
 import { DetailTransaksiRoutes } from './routes/detailTransaksi';
+import { AuthRoutes } from './routes/auth';
 
 const app = new Hono().basePath('/api');
 
 const registeredRoutes: string[] = [];
-const logRoute = (prefix: string) => {
+
+const logRoute = (prefix: string, AuthRoutes?: unknown) => {
   registeredRoutes.push(prefix);
   console.log(`Registered route: ${prefix}`);
 };
 
+// Daftar semua route
 app.route('/outlets', OutletRoutes);
 logRoute('/api/outlets');
 
@@ -31,6 +34,9 @@ logRoute('/api/transaksi');
 
 app.route('/details', DetailTransaksiRoutes);
 logRoute('/api/details');
+
+app.route('/', AuthRoutes);
+logRoute('/api', AuthRoutes);
 
 console.log('All registered routes:', registeredRoutes);
 

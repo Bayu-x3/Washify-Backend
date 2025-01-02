@@ -1,9 +1,19 @@
-import { Hono } from 'hono'
+import { Hono } from 'hono';
+import { OutletRoutes } from './routes/outlets';
 
-const app = new Hono()
+const app = new Hono().basePath('/api');
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+const registeredRoutes: string[] = [];
+const logRoute = (prefix: string) => {
+  registeredRoutes.push(prefix);
+  console.log(`Registered route: ${prefix}`);
+};
 
-export default app
+app.route('/outlets', OutletRoutes);
+logRoute('/api/outlets');
+
+console.log('All registered routes:', registeredRoutes);
+
+app.fire();
+
+export default app;

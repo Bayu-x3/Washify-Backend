@@ -120,7 +120,6 @@ export async function deleteOutlets(c: Context) {
             where: { id_outlet: Number(id) },
         });
 
-        // Now delete the outlet
         await prisma.outlets.delete({
             where: { id: Number(id) },
         });

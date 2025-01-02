@@ -107,7 +107,7 @@ model Transaksi {
   members        Members @relation(fields: [id_member], references: [id], onDelete: Cascade, onUpdate: Cascade)
   tgl            DateTime
   batas_waktu    DateTime
-  tgl_bayar      DateTime
+  tgl_bayar    DateTime? // Nullable field
   biaya_tambahan Int
   diskon         Decimal @db.Decimal(8, 2)
   pajak          Int

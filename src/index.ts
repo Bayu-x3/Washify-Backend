@@ -8,42 +8,51 @@ import { DetailTransaksiRoutes } from './routes/detailTransaksi';
 import { AuthRoutes } from './routes/auth';
 import { DashboardRoutes } from './routes/dashboard';
 
+// Middleware CORS
+const corsMiddleware = (ctx: any, next: any) => {
+  ctx.header('Access-Control-Allow-Origin', '*');
+  ctx.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  ctx.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  // Jika permintaan adalah OPTIONS (preflight request), segera kembalikan response
+  if (ctx.req.method === 'OPTIONS') {
+    return ctx.body('OK');
+  }
+  
+  return next();
+};
+
 const app = new Hono().basePath('/api');
 
-const registeredRoutes: string[] = [];
-
-const logRoute = (prefix: string, AuthRoutes?: unknown) => {
-  registeredRoutes.push(prefix);
-  console.log(`Registered route: ${prefix}`);
-};
+// Tambahkan middleware CORS
+app.use(corsMiddleware);
 
 // Daftar semua route
 app.route('/outlets', OutletRoutes);
-logRoute('/api/outlets');
+console.log('Registered route: /api/outlets');
 
 app.route('/users', UserRoutes);
-logRoute('/api/users');
+console.log('Registered route: /api/users');
 
 app.route('/pakets', PaketRoutes);
-logRoute('/api/pakets');
+console.log('Registered route: /api/pakets');
 
 app.route('/members', MemberRoutes);
-logRoute('/api/members');
+console.log('Registered route: /api/members');
 
 app.route('/transaksi', TransaksiRoutes);
-logRoute('/api/transaksi');
+console.log('Registered route: /api/transaksi');
 
 app.route('/details', DetailTransaksiRoutes);
-logRoute('/api/details');
+console.log('Registered route: /api/details');
 
 app.route('/dashboard', DashboardRoutes);
-logRoute('/api/dashboard');
+console.log('Registered route: /api/dashboard');
 
 app.route('/', AuthRoutes);
-logRoute('/api', AuthRoutes);
+console.log('Registered route: /api');
 
-console.log('All registered routes:', registeredRoutes);
-
+// Jalankan aplikasi
 app.fire();
 
 export default app;

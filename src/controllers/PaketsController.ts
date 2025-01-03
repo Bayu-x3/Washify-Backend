@@ -64,7 +64,7 @@ export async function getPaketById(c: Context) {
 
 export async function createPaket(c: Context) {
     try {
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = paketSchema.parse(body);
         const createData = { ...parseBody };
 
@@ -90,7 +90,7 @@ export async function updatePaket(c: Context) {
             return sendResponse(c, 400, false, 'User ID is required');
         }
 
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = paketSchemaPartial.parse(body);
 
         const updatedData = { ...parseBody };

@@ -56,7 +56,7 @@ export async function getOutletById(c: Context) {
 
 export async function createOutlets(c: Context) {
     try {
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = outletSchema.parse(body);
 
         const outlets = await prisma.outlets.create({
@@ -80,7 +80,7 @@ export async function updateOutlets(c: Context) {
             return sendResponse(c, 400, false, 'Outlet ID is required');
         }
 
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = outletSchema.partial().parse(body);
 
         const outlet = await prisma.outlets.update({

@@ -74,7 +74,7 @@ export async function getTransaksiById(c: Context) {
 
 export async function createTransaksi(c: Context) {
     try {
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = transaksiSchema.parse(body);
 
         const transaksi = await prisma.transaksi.create({
@@ -101,7 +101,7 @@ export async function updateTransaksi(c: Context) {
             return sendResponse(c, 400, false, 'Transaction ID is required');
         }
 
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = transaksiSchemaPartial.parse(body);
 
         const transaksi = await prisma.transaksi.update({

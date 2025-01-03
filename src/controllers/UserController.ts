@@ -64,7 +64,7 @@ export async function getUserById(c: Context) {
 
 export async function createUser(c: Context) {
     try {
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = userSchema.parse(body);
 
         const hashedPassword = bcrypt.hashSync(parseBody.password, 8);
@@ -93,7 +93,7 @@ export async function updateUser(c: Context) {
             return sendResponse(c, 400, false, 'User ID is required');
         }
 
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = userSchemaPartial.parse(body);
 
         const updatedData = { ...parseBody };

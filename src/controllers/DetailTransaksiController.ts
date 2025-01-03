@@ -60,7 +60,7 @@ export async function getDetailTransaksiById(c: Context) {
 
 export async function createDetailTransaksi(c: Context) {
     try {
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = detailTransaksiSchema.parse(body);
 
         const detail = await prisma.detailTransaksi.create({
@@ -84,7 +84,7 @@ export async function updateDetailTransaksi(c: Context) {
             return sendResponse(c, 400, false, 'Detail Transaction ID is required');
         }
 
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = detailTransaksiSchemaPartial.parse(body);
 
         const detail = await prisma.detailTransaksi.update({

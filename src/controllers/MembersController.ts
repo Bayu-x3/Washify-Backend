@@ -58,7 +58,7 @@ export async function getMemberById(c: Context) {
 
 export async function createMember(c: Context) {
     try {
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = memberSchema.parse(body);
         const createData = { ...parseBody };
 
@@ -84,7 +84,7 @@ export async function updateMember(c: Context) {
             return sendResponse(c, 400, false, 'User ID is required');
         }
 
-        const body = await c.req.parseBody();
+        const body = await c.req.json();
         const parseBody = memberSchemaPartial.parse(body);
 
         const updatedData = { ...parseBody };
